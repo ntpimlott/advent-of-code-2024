@@ -37,13 +37,18 @@ function part1() {
     // let i = 0;
 
     while(leftArea !== true){
-    // while(i<3){
-        // console.log(currentLocation.firstIndex,currentLocation.secondIndex);
-        // console.log(input[currentLocation.firstIndex-1][currentLocation.secondIndex]);
-        // console.log(input[currentLocation.firstIndex][currentLocation.secondIndex]);
-        // If ^
+        //Check for Up Direction
         if(input[currentLocation.firstIndex][currentLocation.secondIndex]==="^"){
             if(currentLocation.firstIndex-1 < 0){
+                if(distinctAreaMap.has(currentLocation.firstIndex)){
+                    const area = distinctAreaMap.get(currentLocation.firstIndex);
+                    if(!area.includes(currentLocation.secondIndex)){
+                        area.push(currentLocation.secondIndex);
+                    }
+                }
+                else{
+                    distinctAreaMap.set(currentLocation.firstIndex, [currentLocation.secondIndex]);
+                }
                 leftArea = true;
                 break;
             }
@@ -60,7 +65,6 @@ function part1() {
             }
             else if(input[currentLocation.firstIndex-1][currentLocation.secondIndex] === "."){
                 input[currentLocation.firstIndex-1][currentLocation.secondIndex] = "^";
-                console.log(input[currentLocation.firstIndex-1][currentLocation.secondIndex]);
                 input[currentLocation.firstIndex][currentLocation.secondIndex] = ".";
                 distinctArea.add([currentLocation.firstIndex, currentLocation.secondIndex]);
                 if(distinctAreaMap.has(currentLocation.firstIndex)){
@@ -72,23 +76,24 @@ function part1() {
                 else{
                     distinctAreaMap.set(currentLocation.firstIndex, [currentLocation.secondIndex]);
                 }
-                // console.log(currentLocation);
                 currentLocation.firstIndex = currentLocation.firstIndex-1;
-                // console.log(input[currentLocation.firstIndex][currentLocation.secondIndex]);
-                // console.log(currentLocation);
             }
-            // else{
-            //     leftArea = true;
-            //     break;
-            // }
         }
-        // If v
+        // Check Down Direction
         if(input[currentLocation.firstIndex][currentLocation.secondIndex]==="v"){
             if(currentLocation.firstIndex+1 > input.length-1){
+                if(distinctAreaMap.has(currentLocation.firstIndex)){
+                    const area = distinctAreaMap.get(currentLocation.firstIndex);
+                    if(!area.includes(currentLocation.secondIndex)){
+                        area.push(currentLocation.secondIndex);
+                    }
+                }
+                else{
+                    distinctAreaMap.set(currentLocation.firstIndex, [currentLocation.secondIndex]);
+                }
                 leftArea = true;
                 break;
             }
-            console.log("v");
             if(input[currentLocation.firstIndex+1][currentLocation.secondIndex] === "#"){
                 input[currentLocation.firstIndex][currentLocation.secondIndex] = "<";
                 if(distinctAreaMap.has(currentLocation.firstIndex)){
@@ -103,7 +108,6 @@ function part1() {
                 input[currentLocation.firstIndex+1][currentLocation.secondIndex] = "v";
                 input[currentLocation.firstIndex][currentLocation.secondIndex] = ".";
                 distinctArea.add([currentLocation.firstIndex, currentLocation.secondIndex]);
-                currentLocation.firstIndex = currentLocation.firstIndex+1;
 
                 if(distinctAreaMap.has(currentLocation.firstIndex)){
                     const area = distinctAreaMap.get(currentLocation.firstIndex);
@@ -114,19 +118,24 @@ function part1() {
                 else{
                     distinctAreaMap.set(currentLocation.firstIndex, [currentLocation.secondIndex]);
                 }
+                currentLocation.firstIndex = currentLocation.firstIndex+1;
             }
-            // else{
-            //     leftArea = true;
-            //     break;
-            // }
         }
-        // If <
+        // Check Left Direction
         if(input[currentLocation.firstIndex][currentLocation.secondIndex]==="<"){
             if(currentLocation.secondIndex-1 < 0){
+                if(distinctAreaMap.has(currentLocation.firstIndex)){
+                    const area = distinctAreaMap.get(currentLocation.firstIndex);
+                    if(!area.includes(currentLocation.secondIndex)){
+                        area.push(currentLocation.secondIndex);
+                    }
+                }
+                else{
+                    distinctAreaMap.set(currentLocation.firstIndex, [currentLocation.secondIndex]);
+                }
                 leftArea = true;
                 break;
             }
-            console.log("<");
             if(input[currentLocation.firstIndex][currentLocation.secondIndex-1] === "#"){
                 input[currentLocation.firstIndex][currentLocation.secondIndex] = "^";
                 if(distinctAreaMap.has(currentLocation.firstIndex)){
@@ -141,7 +150,6 @@ function part1() {
                 input[currentLocation.firstIndex][currentLocation.secondIndex-1] = "<";
                 input[currentLocation.firstIndex][currentLocation.secondIndex] = ".";
                 distinctArea.add([currentLocation.firstIndex, currentLocation.secondIndex]);
-                currentLocation.secondIndex = currentLocation.secondIndex-1;
 
                 if(distinctAreaMap.has(currentLocation.firstIndex)){
                     const area = distinctAreaMap.get(currentLocation.firstIndex);
@@ -152,19 +160,24 @@ function part1() {
                 else{
                     distinctAreaMap.set(currentLocation.firstIndex, [currentLocation.secondIndex]);
                 }
+                currentLocation.secondIndex = currentLocation.secondIndex-1;
             }
-            // else{
-            //     leftArea = true;
-            //     break;
-            // }
         }
-        // If >
+        // Check Right Direction
         if(input[currentLocation.firstIndex][currentLocation.secondIndex]===">"){
             if(currentLocation.secondIndex+1 > input[currentLocation.firstIndex].length-1){
+                if(distinctAreaMap.has(currentLocation.firstIndex)){
+                    const area = distinctAreaMap.get(currentLocation.firstIndex);
+                    if(!area.includes(currentLocation.secondIndex)){
+                        area.push(currentLocation.secondIndex);
+                    }
+                }
+                else{
+                    distinctAreaMap.set(currentLocation.firstIndex, [currentLocation.secondIndex]);
+                }
                 leftArea = true;
                 break;
             }
-            console.log(">");
             if(input[currentLocation.firstIndex][currentLocation.secondIndex+1] === "#"){
                 input[currentLocation.firstIndex][currentLocation.secondIndex] = "v";
                 if(distinctAreaMap.has(currentLocation.firstIndex)){
@@ -179,7 +192,7 @@ function part1() {
                 input[currentLocation.firstIndex][currentLocation.secondIndex+1] = ">";
                 input[currentLocation.firstIndex][currentLocation.secondIndex] = ".";
                 distinctArea.add([currentLocation.firstIndex, currentLocation.secondIndex]);
-                currentLocation.secondIndex = currentLocation.secondIndex+1;
+                
                 if(distinctAreaMap.has(currentLocation.firstIndex)){
                     const area = distinctAreaMap.get(currentLocation.firstIndex);
                     if(!area.includes(currentLocation.secondIndex)){
@@ -189,24 +202,18 @@ function part1() {
                 else{
                     distinctAreaMap.set(currentLocation.firstIndex, [currentLocation.secondIndex]);
                 }
+                currentLocation.secondIndex = currentLocation.secondIndex+1;
             }
-            // else{
-            //     leftArea = true;
-            //     break;
-            // }
         }
-        // i++;
     }
-    // console.log(currentLocation);
+
     let result = 0;
     distinctAreaMap.forEach((value, key) => {
-        console.log(key, value);
         for(let i = 0;i<value.length;i++){
             result++;
         }
     });
 
-  console.log("Part 1: ", distinctArea.size);
   console.log("Part 1: ", result);
 //   console.log("Part 1: ", distinctArea);
 }
