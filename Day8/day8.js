@@ -1,7 +1,7 @@
 const fs = require("fs");
 
-function isValidCoord(i, j, height, width, input){
-    if(i < height && i>=0 && j>=0 && j<width && input[i].charAt(j) === "."){
+function isValidCoord(i, j, height, width, input, key){
+    if(i < height && i>=0 && j>=0 && j<width && input[i].charAt(j) !== key){
         return true;
     }
     else{
@@ -12,7 +12,9 @@ function isValidCoord(i, j, height, width, input){
 function addAntinode(i, j, antinodeMap){
     if(antinodeMap.has(i)){
         let temp = antinodeMap.get(i);
-        temp.push(j);
+        if(!temp.includes(j)){
+            temp.push(j);
+        }
     }
     else{
         antinodeMap.set(i, [j]);
@@ -48,7 +50,6 @@ function part1() {
     const width = input[0].length;
     const antiNodeLocations = new Map();
 
-    // console.log(frequencies);
 
     frequencies.forEach((values, key) => {
         for(let i = 0;i<values.length;i++){
@@ -60,75 +61,49 @@ function part1() {
                 const horzDiff = nextLocation.secondIndex - currLocation.secondIndex;
 
                 if(Math.sign(vertDiff) && Math.sign(horzDiff)){
-                    if(isValidCoord(currLocation.firstIndex - vertDiff, currLocation.secondIndex - horzDiff, height, width, input)){
-                        addAntinode(currLocation.firstIndex - vertDiff,currLocation.secondIndex - horzDiff, antiNodeLocations);
+                    if(isValidCoord(currLocation.firstIndex - vertDiff, currLocation.secondIndex - horzDiff, height, width, input, key)){
+                        addAntinode(currLocation.firstIndex - vertDiff, currLocation.secondIndex - horzDiff, antiNodeLocations);
                     }
-                    if(isValidCoord(nextLocation.firstIndex + vertDiff, nextLocation.secondIndex + horzDiff, height, width, input)){
+                    if(isValidCoord(nextLocation.firstIndex + vertDiff, nextLocation.secondIndex + horzDiff, height, width, input, key)){
                         addAntinode(nextLocation.firstIndex + vertDiff, nextLocation.secondIndex + horzDiff, antiNodeLocations);
                     }
                 }
                 else if(!Math.sign(vertDiff) && Math.sign(horzDiff)){
-                    if(isValidCoord(currLocation.firstIndex + vertDiff, currLocation.secondIndex - horzDiff, height, width, input)){
-                        addAntinode(currLocation.firstIndex + vertDiff,currLocation.secondIndex - horzDiff, antiNodeLocations);
+                    if(isValidCoord(currLocation.firstIndex + vertDiff, currLocation.secondIndex - horzDiff, height, width, input, key)){
+                        addAntinode(currLocation.firstIndex + vertDiff, currLocation.secondIndex - horzDiff, antiNodeLocations);
                     }
-                    if(isValidCoord(nextLocation.firstIndex - vertDiff, nextLocation.secondIndex + horzDiff, height, width, input)){
+                    if(isValidCoord(nextLocation.firstIndex - vertDiff, nextLocation.secondIndex + horzDiff, height, width, input, key)){
                         addAntinode(nextLocation.firstIndex - vertDiff, nextLocation.secondIndex + horzDiff, antiNodeLocations);
                     }
                 }
                 else if(!Math.sign(vertDiff) && !Math.sign(horzDiff)){
-                    if(isValidCoord(currLocation.firstIndex + vertDiff, currLocation.secondIndex + horzDiff, height, width, input)){
-                        addAntinode(currLocation.firstIndex + vertDiff,currLocation.secondIndex + horzDiff, antiNodeLocations);
+                    if(isValidCoord(currLocation.firstIndex + vertDiff, currLocation.secondIndex + horzDiff, height, width, input, key)){
+                        addAntinode(currLocation.firstIndex + vertDiff, currLocation.secondIndex + horzDiff, antiNodeLocations);
                     }
-                    if(isValidCoord(nextLocation.firstIndex - vertDiff, nextLocation.secondIndex - horzDiff, height, width, input)){
+                    if(isValidCoord(nextLocation.firstIndex - vertDiff, nextLocation.secondIndex - horzDiff, height, width, input, key)){
                         addAntinode(nextLocation.firstIndex - vertDiff, nextLocation.secondIndex - horzDiff, antiNodeLocations);
                     }
                 }
-                else{
-                    if(isValidCoord(currLocation.firstIndex - vertDiff, currLocation.secondIndex + horzDiff, height, width, input)){
-                        addAntinode(currLocation.firstIndex - vertDiff,currLocation.secondIndex + horzDiff, antiNodeLocations);
+                else if(Math.sign(vertDiff) && !Math.sign(horzDiff)){
+                    if(isValidCoord(currLocation.firstIndex - vertDiff, currLocation.secondIndex + horzDiff, height, width, input, key)){
+                        addAntinode(currLocation.firstIndex - vertDiff, currLocation.secondIndex + horzDiff, antiNodeLocations);
                     }
-                    if(isValidCoord(nextLocation.firstIndex + vertDiff, nextLocation.secondIndex - horzDiff, height, width, input)){
+                    if(isValidCoord(nextLocation.firstIndex + vertDiff, nextLocation.secondIndex - horzDiff, height, width, input, key)){
                         addAntinode(nextLocation.firstIndex + vertDiff, nextLocation.secondIndex - horzDiff, antiNodeLocations);
                     }
                 }
-
-                // if(Math.sign(horzDiff)){
-                //     if(isValidCoord(nextLocation.firstIndex + vertDiff, nextLocation.secondIndex + horzDiff, height, width)){
-                //         addAntinode(nextLocation.firstIndex + vertDiff, nextLocation.secondIndex + horzDiff);
-                //     }
-                // }
-                // else{
-                //     if(isValidCoord(nextLocation.firstIndex + vertDiff, nextLocation.secondIndex + horzDiff, height, width)){
-                //         addAntinode(nextLocation.firstIndex + vertDiff, nextLocation.secondIndex + horzDiff);
-                //     }
-                // }
-
-                // console.log(currLocation);
-                // console.log(nextLocation);
-                // console.log(vertDiff);
-                // console.log(horzDiff);
-
-                //Add for first antinode
-
-                    //Check if valid
-                        //Add to map
-                
-                //Subtract for second antinode
             }
         }
     });
 
     let result = 0;
-    console.log(antiNodeLocations);
+
 
     antiNodeLocations.forEach((values) => {
-        // console.log(values);
         for(let i = 0;i<values.length;i++){
             result++;
         }
     });
-
-    // console.log(frequencies);
 
     console.log("Part 1: ", result);
 }
