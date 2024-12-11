@@ -55,7 +55,7 @@ function part1() {
         for(let i = 0;i<values.length;i++){
             const currLocation = values[i];
             for(let j = i+1;j<values.length;j++){
-                //Find distance between currLocation and nextLocation
+
                 const nextLocation = values[j];
                 const vertDiff = nextLocation.firstIndex - currLocation.firstIndex;
                 const horzDiff = nextLocation.secondIndex - currLocation.secondIndex;
@@ -142,19 +142,14 @@ function part2(){
         for(let i = 0;i<values.length;i++){
             const currLocation = values[i];
             for(let j = i+1;j<values.length;j++){
-                //Find distance between currLocation and nextLocation
-                
                 const nextLocation = values[j];
                 
                 const vDiff = nextLocation.firstIndex - currLocation.firstIndex;
                 const hDiff = nextLocation.secondIndex - currLocation.secondIndex;
-                // console.log(vDiff);
-                // console.log(vDiff);
                 let vertDiff = vDiff;
                 let horzDiff = hDiff;
 
                 while(Math.abs(vertDiff) < height && Math.abs(vertDiff)>=0 && Math.abs(horzDiff)>=0 && Math.abs(horzDiff)<width){
-                    // console.log(vertDiff, " ", vDiff);
                     
                     if(Math.sign(vertDiff) && Math.sign(horzDiff)){
                         if(isValidCoord(currLocation.firstIndex - vertDiff, currLocation.secondIndex - horzDiff, height, width, input, key)){
@@ -188,19 +183,10 @@ function part2(){
                             addAntinode(nextLocation.firstIndex + vertDiff, nextLocation.secondIndex - horzDiff, antiNodeLocations);
                         }
                     }
-                    if(vDiff < 0){
-                        vertDiff = vertDiff + vDiff;
-                    }
-                    else{
-                        vertDiff = vertDiff + vDiff;
-                    }
-                    if(hDiff < 0){
-                        horzDiff = horzDiff + hDiff;
-                    }
-                    else{
-                        horzDiff = horzDiff + hDiff;
-                    }
-                    
+
+                    vertDiff = vertDiff + vDiff;
+                    horzDiff = horzDiff + hDiff;
+                     
                 }
             }
         }
@@ -220,7 +206,6 @@ function part2(){
         }
     });
 
-    // console.log(antiNodeLocations);
     console.log("Part 2: ", result);
 }
 
